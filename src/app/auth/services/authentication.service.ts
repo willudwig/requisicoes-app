@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private usuarioLogado: Observable<firebase.User | null>;
+  public usuarioLogado: Observable<firebase.User | null>;
 
   constructor(private auth:AngularFireAuth) {
     this.usuarioLogado = this.auth.authState;
@@ -19,5 +19,9 @@ export class AuthenticationService {
 
    public resetarSenha(email: string): Promise<void> {
     return this.auth.sendPasswordResetEmail(email);
+   }
+
+   public logout (): Promise<void> {
+    return this.auth.signOut();
    }
 }

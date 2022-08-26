@@ -1,1 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
+.bg-color {
+
+  background-image: linear-gradient(rgb(210, 210, 210), rgb(255, 255, 255) ) !important;
+}
+
+.bg-light {
+  background-color: white !important;
+}
+
+.links {
+  font-size: 17px;
+}
+
+.nav-link:hover {
+  color: rgb(8, 8, 135)
+}
