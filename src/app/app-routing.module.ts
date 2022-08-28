@@ -4,15 +4,9 @@ import { LoginComponent } from './auth/login/login.component';
 import { PainelComponent } from './painel/painel.component';
 
 const routes: Routes = [
-  {
-    path:"", redirectTo:"login", pathMatch: "full" //aqui seria a 'home' só redireiconada para o 'login'
-  },
-  {
-    path:"login", component: LoginComponent
-  },
-  {
-    path:"painel", component: PainelComponent
-  }
+  {path:"", redirectTo:"login", pathMatch: "full"}, //aqui seria a 'home' só redireiconada para o 'login'
+  {path:"login", component: LoginComponent},
+  {path:"painel", component: PainelComponent}
 ];
 
 @NgModule({

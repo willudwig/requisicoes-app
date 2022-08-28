@@ -1,7 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 .bg-color {
 
-  background-image: linear-gradient(rgb(210, 210, 210), rgb(255, 255, 255) ) !important;
+  background-color: rgb(210, 210, 210) !important;
 }
 
 .bg-light {
