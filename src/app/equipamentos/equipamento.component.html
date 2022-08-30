@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-12 col-md-10 col-lg-9 mx-auto">
       <div class="center text-md-start">
-        <h1 class="fw-bold text-primary">Departamentos</h1>
+        <h1 class="fw-bold text-primary">Equipamentos</h1>
       </div>
       <div class="d-grid gap-2 d-md-block mt-4">
           <button (click)="gravar(modal)" type="button" class="btn btn-primary me-md-1 col-md-2">
@@ -16,20 +16,24 @@
         <table class="table table-light table-striped table-hover">
           <thead class="thead-dark text-center">
             <tr>
+              <th>Nº Série</th>
               <th>Nome</th>
-              <th>Telefone</th>
+              <th>Preço Aquisição</th>
+              <th>Data Fabricação</th>
               <th>Ações</th>
             </tr>
           </thead>
           <tbody class="text-center">
-            <tr *ngFor="let departamento of (departamentos$ | async)">
-              <td>{{departamento.nome}}</td>
-              <td>{{departamento.telefone}}</td>
+            <tr *ngFor="let equipamento of (equipamentos$ | async)">
+              <td>{{equipamento.numeroSerie}}</td>
+              <td>{{equipamento.nome}}</td>
+              <td>{{equipamento.precoAquisicao | currency: 'R$ '}}</td>
+              <td>{{equipamento.dataFabricacao | date: 'dd/MM/yyyy'}}</td>
               <td class="d-grid d-md-block">
-                  <button (click)="gravar(modal, departamento)" type="button" class="btn btn-primary me-0 me-md-1 mb-1 mb-md-auto">
+                  <button (click)="gravar(modal, equipamento)" type="button" class="btn btn-primary me-0 me-md-1 mb-1 mb-md-auto">
                     <i class="pi pi-user-edit"></i>
                   </button>
-                  <button (click)="excluir(departamento)" type="button" class="btn btn-outline-danger">
+                  <button (click)="excluir(equipamento)" type="button" class="btn btn-outline-danger">
                     <i class="pi pi-trash"></i>
                   </button>
               </td>
@@ -42,19 +46,27 @@
 
 <ng-template #modal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{tituloModal}} de Departamento</h4>
+    <h4 class="modal-title" id="modal-basic-title">{{tituloModal}} de Equipamento</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('fechar')"></button>
   </div>
   <form [formGroup]="form" (ngSubmit)="modal.close('gravar')">
     <div class="modal-body">
       <div class="mb-3">
-        <label for="nome" class="form-label">Nome do Departamento</label>
+        <label for="numeroSerie" class="form-label">Nº de Série</label>
         <div class="input-group">
-          <input formControlName="nome" class="form-control" placeholder="digite o nome do departamento" type="text">
+          <input formControlName="numeroSerie" class="form-control" placeholder="digite o número de série" type="text">
         </div>
-        <label for="telefone" class="form-label mt-3">Telefone do Departamento</label>
+        <label for="nome" class="form-label mt-3">Nome do Equipamento</label>
         <div class="input-group">
-          <input formControlName="telefone" class="form-control" placeholder="digite o telefone" type="text">
+          <input formControlName="nome" class="form-control" placeholder="digite o nome do equipamento" type="text">
+        </div>
+        <label for="precoAquisicao" class="form-label mt-3">Preço de Aquisição</label>
+        <div class="input-group">
+          <input formControlName="precoAquisicao" class="form-control" placeholder="R$ 0,00">
+        </div>
+        <label for="dataFabricacao" class="form-label mt-3">Data de Fabricação</label>
+        <div class="input-group">
+          <input formControlName="dataFabricacao" class="form-control" type="date">
         </div>
       </div>
       <div class="modal-footer">
@@ -64,4 +76,3 @@
     </div>
   </form>
 </ng-template>
-

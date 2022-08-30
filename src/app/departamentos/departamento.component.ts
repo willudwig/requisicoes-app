@@ -62,7 +62,8 @@ export class DepartamentoComponent implements OnInit {
 
       console.log(`O departamento foi salvo com sucesso`);
 
-    } catch (_error) {
+    }
+    catch (_error) {
 
     }
 
