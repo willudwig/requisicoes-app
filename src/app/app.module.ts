@@ -14,7 +14,7 @@ import { PainelComponent } from './painel/painel.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { DepartamentoModule } from './departamentos/departamento.module';
 import { EquipamentoModule } from './equipamentos/equipamento.module';
-import { MessagesComponent } from './messages/messages.component';
+import { MessagesComponent} from './messages/material_component/messages.component'
 import { MatButtonModule } from '@angular/material/button';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -22,7 +22,6 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
-
 import { registerLocaleData } from '@angular/common';
 import { LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
 import ptBr from '@angular/common/locales/pt';
@@ -58,6 +57,7 @@ registerLocaleData(ptBr);
       timeOut: 3000
     }),
   ],
+
   providers: [ AuthenticationService,
   { provide: LOCALE_ID, useValue: 'pt' },
   { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' } ],

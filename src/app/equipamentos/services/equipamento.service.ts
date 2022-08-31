@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
-import { MessageService } from 'src/app/messages/services/material_component/message.service';
-import { NotificacaoToastrService } from 'src/app/messages/services/toastr/toastr.service';
+import { MessageService } from 'src/app/messages/material_component/services/message.service';
+import { NotificacaoToastrService } from 'src/app/messages/toastr/services/toastr.service';
 import { Equipamento } from '../models/equipamento.model';
 
 @Injectable({
