@@ -15,3 +15,6 @@
 .nav-link:hover {
   color: rgb(8, 8, 135)
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
