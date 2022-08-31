@@ -21,7 +21,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
+import { CurrencyMaskModule } from 'ng2-currency-mask';
 
+import { registerLocaleData } from '@angular/common';
+import { LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
+import ptBr from '@angular/common/locales/pt';
+
+registerLocaleData(ptBr);
 
 @NgModule({
   declarations: [
@@ -46,9 +52,16 @@ import { ToastrModule } from 'ngx-toastr';
     AngularFirestoreModule,
     DepartamentoModule,
     EquipamentoModule,
-    ToastrModule.forRoot(),
+    CurrencyMaskModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      timeOut: 3000
+    }),
   ],
-  providers: [AuthenticationService],
-  bootstrap: [AppComponent]
+  providers: [ AuthenticationService,
+  { provide: LOCALE_ID, useValue: 'pt' },
+  { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' } ],
+
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

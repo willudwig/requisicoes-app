@@ -1,8 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { MessageService } from '../messages/services/message.service';
 import { Equipamento } from './models/equipamento.model';
 import { EquipamentoService } from './services/equipamento.service';
 
@@ -38,7 +37,7 @@ export class EquipamentoComponent implements OnInit {
     return this.id?.value ? "Atualização" : "Cadastro";
   }
 
-  get id() {
+  get id(): AbstractControl | null {
     return this.form.get("id");
   }
 
@@ -84,8 +83,6 @@ export class EquipamentoComponent implements OnInit {
         this.equipamentoService.exibirNotificacao("Equipamento alterado com sucesso.");
         console.log(`O equipamento foi alterado com sucesso.`);
       }
-
-
     }
     catch (_error) {
     }

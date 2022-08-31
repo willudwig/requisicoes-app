@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { ToastrService } from 'ngx-toastr';
-import { catchError, EMPTY, Observable } from 'rxjs';
-import { MessageService } from 'src/app/messages/services/message.service';
+import { Observable } from 'rxjs';
+import { MessageService } from 'src/app/messages/services/material_component/message.service';
+import { NotificacaoToastrService } from 'src/app/messages/services/toastr/toastr.service';
 import { Equipamento } from '../models/equipamento.model';
 
 @Injectable({
@@ -14,9 +14,10 @@ export class EquipamentoService {
 
   constructor(private firestore: AngularFirestore,
               private mesasageService: MessageService,
-              private toastr: ToastrService
-             ) {
-      this.registros = this.firestore.collection<Equipamento>("equipaamentos");
+              private notificacaoToastr: NotificacaoToastrService
+             )
+  {
+    this.registros = this.firestore.collection<Equipamento>("equipaamentos");
 
   }
 
@@ -34,10 +35,10 @@ export class EquipamentoService {
       const resultado = await this.registros.add(registro);
       registro.id = resultado.id;
       this.registros.doc(resultado.id).set(registro);
-      this.exibirSucesso("Inserido com sucesso.");
+      this.notificacaoToastr.exibirSucesso("Inserido com sucesso.");
     }
     catch(error) {
-      this.exibirErro(error);
+      this.notificacaoToastr.exibirErro(error);
     }
 
   }
@@ -48,7 +49,7 @@ export class EquipamentoService {
       return this.registros.doc(registro.id).set(registro);
     }
     catch (error) {
-      this.exibirErro(error);
+      this.notificacaoToastr.exibirErro(error);
     }
 
   }
@@ -57,10 +58,10 @@ export class EquipamentoService {
 
     try {
       this.registros.doc(registro.id).delete();
-      this.exibirSucesso("Excluído com sucesso.");
+      this.notificacaoToastr.exibirSucesso("Excluído com sucesso.");
     }
     catch (error) {
-      this.exibirErro(error);
+      this.notificacaoToastr.exibirErro(error);
     }
 
   }
@@ -69,19 +70,4 @@ export class EquipamentoService {
     this.mesasageService.add(notificacao);
   }
 
-  public exibirErro(e: any): Observable<any> {
-    this.exibirMensagemToastr("Erro.", "operação mal sucedida", "toast-error");
-    return EMPTY;
-  }
-
-  public exibirSucesso(mensagem: string): Observable<any> {
-    this.exibirMensagemToastr("OK.", mensagem, "toast-success");
-    return EMPTY;
-  }
-
-
-  public exibirMensagemToastr(titulo: string, mensagem: string, tipo: string): void {
-    this.toastr.show(titulo, mensagem, {closeButton:true, progressBar: true}, tipo);
-  }
-
-}
+ }

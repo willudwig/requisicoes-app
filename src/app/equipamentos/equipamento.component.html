@@ -27,7 +27,7 @@
             <tr *ngFor="let equipamento of (equipamentos$ | async)">
               <td>{{equipamento.numeroSerie}}</td>
               <td>{{equipamento.nome}}</td>
-              <td>{{equipamento.precoAquisicao | currency: 'R$ '}}</td>
+              <td>{{equipamento.precoAquisicao | currency}}</td>
               <td>{{equipamento.dataFabricacao | date: 'dd/MM/yyyy'}}</td>
               <td class="d-grid d-md-block">
                   <button (click)="gravar(modal, equipamento)" type="button" class="btn btn-primary me-0 me-md-1 mb-1 mb-md-auto">
@@ -62,7 +62,11 @@
         </div>
         <label for="precoAquisicao" class="form-label mt-3">Preço de Aquisição</label>
         <div class="input-group">
-          <input formControlName="precoAquisicao" class="form-control" placeholder="R$ 0,00">
+          <input currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align:'left' }"
+                 formControlName="precoAquisicao"
+                 class="form-control"
+                 placeholder="R$ 0,00"
+           >
         </div>
         <label for="dataFabricacao" class="form-label mt-3">Data de Fabricação</label>
         <div class="input-group">
