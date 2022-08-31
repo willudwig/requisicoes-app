@@ -45,7 +45,7 @@ export class EquipamentoService {
 
   public async editar(registro: Equipamento): Promise<void> {
 
-    try{
+    try {
       return this.registros.doc(registro.id).set(registro);
     }
     catch (error) {
