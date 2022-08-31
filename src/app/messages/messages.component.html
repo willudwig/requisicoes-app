@@ -1,0 +1,19 @@
+  <mat-accordion *ngIf="messageService.getMessages().length">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+
+        <mat-panel-title>Mensagens</mat-panel-title>
+
+        <mat-panel-description>
+          {{messageService.getMessages().length}} nota(s);
+        </mat-panel-description>
+
+      </mat-expansion-panel-header>
+
+      <button mat mat-raised-button (click)="messageService.clear()">Limpar</button>
+      <div *ngFor="let message of messageService.getMessages()">
+        {{message}}
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+

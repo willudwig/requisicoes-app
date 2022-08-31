@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
+import { MessageService } from '../messages/services/message.service';
 import { Equipamento } from './models/equipamento.model';
 import { EquipamentoService } from './services/equipamento.service';
 
@@ -66,22 +67,54 @@ export class EquipamentoComponent implements OnInit {
     try {
       await this.modalServie.open(modal).result;
 
-      if(!equipamento)
-        await this.equipamentoService.inserir(this.form.value);
-      else
-        await this.equipamentoService.editar(this.form.value);
+      let verificado = this.verificarRepetido(this.form.value);
 
-      console.log(`O equipamento foi salvo com sucesso`);
+      if (verificado){
+          this.equipamentoService.exibirNotificacao("Equipamento duplicado.");
+          return;
+      }
+
+      if(!equipamento){
+        await this.equipamentoService.inserir(this.form.value);
+        this.equipamentoService.exibirNotificacao("Equipamento inserido com sucesso.");
+        console.log(`O equipamento foi salvo com sucesso.`);
+      }
+      else{
+        await this.equipamentoService.editar(this.form.value);
+        this.equipamentoService.exibirNotificacao("Equipamento alterado com sucesso.");
+        console.log(`O equipamento foi alterado com sucesso.`);
+      }
+
 
     }
     catch (_error) {
-
     }
 
   }
 
   public excluir(equipamento: Equipamento) {
     return this.equipamentoService.excluir(equipamento);
+  }
+
+  public verificarRepetido(eqp: Equipamento): boolean {
+    let resultado = false;
+    const equipamentos = this.equipamentoService.selecionarTodos();
+
+    equipamentos.forEach(equipamento => {
+        equipamento.forEach(x => {
+          if(x.nome === eqp.nome && x.numeroSerie == eqp.numeroSerie && x.id !== eqp.id) {
+            resultado = true;
+            return;
+          }
+          else {
+          resultado = false;
+          return;
+          }
+        })
+
+      });
+
+    return resultado;
   }
 
 }
