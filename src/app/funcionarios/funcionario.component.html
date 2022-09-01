@@ -1,1 +1,87 @@
-<p>funcionario works!</p>
+<div class="container user-select-none">
+  <div class="row">
+    <div class="col-12 col-md-10 col-lg-9 mx-auto">
+      <div class="center text-md-start">
+        <h1 class="fw-bold text-primary">Funcionarios</h1>
+      </div>
+      <div class="d-grid gap-2 d-md-block mt-4">
+          <button (click)="gravar(modal)" type="button" class="btn btn-primary me-md-1 col-md-2">
+            <i class="pi pi-user-plus me-2"></i>Novo
+          </button>
+          <a role="button" class="btn btn-outline-primary col-md-2" routerLink="/painel">
+            <i class="pi pi-sign-out me-2"></i>Voltar
+          </a>
+      </div>
+      <div class="mt-5">
+        <table class="table table-light table-striped table-hover">
+          <thead class="thead-dark text-center">
+            <tr>
+              <th>Nº Série</th>
+              <th>Nome</th>
+              <th>E-Mail</th>
+              <th>Função</th>
+              <th>Departamento</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            <tr *ngFor="let funcionario of (funcionarios$ | async)">
+              <td>{{funcionario.nome}}</td>
+              <td>{{funcionario.email}}</td>
+              <td>{{funcionario.funcao}}</td>
+              <td>{{funcionario.departamento?.nome}}</td>
+              <td class="d-grid d-md-block">
+                  <button (click)="gravar(modal, funcionario)" type="button" class="btn btn-primary me-0 me-md-1 mb-1 mb-md-auto">
+                    <i class="pi pi-user-edit"></i>
+                  </button>
+                  <button (click)="excluir(funcionario)" type="button" class="btn btn-outline-danger">
+                    <i class="pi pi-trash"></i>
+                  </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </div>
+
+  <ng-template #modal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">{{tituloModal}} de Funcionario</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('fechar')"></button>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="modal.close('gravar')">
+      <div class="modal-body">
+        <div class="mb-3">
+          <div class="input-group">
+            <label for="nome" class="form-label mt-3">Nome do Funcionario</label>
+            <input formControlName="nome" class="form-control" placeholder="digite o nome do funcionário" type="text">
+          </div>
+
+          <div class="input-group">
+            <label for="email" class="form-label mt-3">E-Mail</label>
+            <input formControlName="email" class="form-control" placeholder="exemplo@gmail.com" type="mail">
+          </div>
+
+          <div class="input-group">
+            <label for="funcao" class="form-label mt-3">Função</label>
+            <input formControlName="funcao" class="form-control" placeholder="digite a função">
+          </div>
+
+          <div class="input-group">
+            <label for="departamento" class="form-label mt-3">Departamento</label>
+            <ng-select formControlName="departamentoId">
+              <ng-option *ngfor="let departamento of (departamentos$ | async)" [value]="departamento.id">
+                {{departamento.nome}}
+              </ng-option>
+            </ng-select>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-primary col-md-3" (click)="modal.dismiss('fechar')">Cancelar</button>
+          <button type="submit" class="btn btn-primary col-md-3">Gravar</button>
+        </div>
+      </div>
+    </form>
+  </ng-template>
+

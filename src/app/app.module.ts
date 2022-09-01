@@ -25,6 +25,7 @@ import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { registerLocaleData } from '@angular/common';
 import { LOCALE_ID, DEFAULT_CURRENCY_CODE } from '@angular/core';
 import ptBr from '@angular/common/locales/pt';
+import { FuncionarioModule } from './funcionarios/funcionario.module';
 
 registerLocaleData(ptBr);
 
@@ -49,13 +50,14 @@ registerLocaleData(ptBr);
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    DepartamentoModule,
-    EquipamentoModule,
     CurrencyMaskModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       timeOut: 3000
     }),
+    DepartamentoModule,
+    EquipamentoModule,
+    FuncionarioModule
   ],
 
   providers: [ AuthenticationService,

@@ -41,7 +41,7 @@ export class EquipamentoComponent implements OnInit {
     return this.form.get("id");
   }
 
-  get numeroSeerie() {
+  get numeroSerie() {
     return this.form.get("numeroSerie");
   }
 

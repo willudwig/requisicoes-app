@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { FuncionarioRoutingModule } from './funcionario-routing.module';
 import { FuncionarioComponent } from './funcionario.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 @NgModule({
@@ -11,7 +13,9 @@ import { FuncionarioComponent } from './funcionario.component';
   ],
   imports: [
     CommonModule,
-    FuncionarioRoutingModule
+    FuncionarioRoutingModule,
+    ReactiveFormsModule,
+    NgSelectModule
   ]
 })
 export class FuncionarioModule { }

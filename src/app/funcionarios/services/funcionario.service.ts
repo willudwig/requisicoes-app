@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
+import { MessageService } from 'src/app/messages/material_component/services/message.service';
 import { NotificacaoToastrService } from 'src/app/messages/toastr/services/toastr.service';
 import { Funcionario } from '../models/fincionario.model';
 
@@ -11,8 +12,10 @@ export class FuncionarioService {
 
   private registros: AngularFirestoreCollection<Funcionario>;
 
-  constructor(private firestore: AngularFirestore,
-              private notificacaoToastr: NotificacaoToastrService
+  constructor(
+              private firestore: AngularFirestore,
+              private notificacaoToastr: NotificacaoToastrService,
+              private mesasageService: MessageService
              )
   {
      this.registros = this.firestore.collection<Funcionario>("funcionarios");
@@ -59,6 +62,10 @@ export class FuncionarioService {
       this.notificacaoToastr.exibirErro(error);
     }
 
+  }
+
+  public exibirNotificacao(notificacao: string): void {
+    this.mesasageService.add(notificacao);
   }
 
 }
