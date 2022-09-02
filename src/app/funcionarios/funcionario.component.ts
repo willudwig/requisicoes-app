@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Toast, ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Departamento } from '../departamentos/models/departamento.model';
 import { DepartamentoService } from '../departamentos/services/departamento.service';
@@ -20,13 +21,14 @@ export class FuncionarioComponent implements OnInit {
               private fb: FormBuilder,
               private funcionarioService: FuncionarioService,
               private departamentoService: DepartamentoService,
+              private toastr: ToastrService,
               private modalServie: NgbModal
              ) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
       id: new FormControl(""),
-      nome: new FormControl(""),
+      nome: new FormControl("", [Validators.required]),
       email: new FormControl(""),
       funcao: new FormControl(""),
       departamento: new FormControl(""),
@@ -74,21 +76,17 @@ export class FuncionarioComponent implements OnInit {
     try {
       await this.modalServie.open(modal).result;
 
-      //let verificado = this.verificarRepetido(this.form.value);
-
-      // if (verificado){
-      //     this.funcionarioService.exibirNotificacao("Funcionario duplicado.");
-      //     return;
-      //}
+      // if (this.nome?.invalid) {
+      //   this.toastr.error("nome de funcionário inválido.", "Cadastro de Funcionário");
+      //   return;
+      // }
 
       if(!funcionario) {
         await this.funcionarioService.inserir(this.form.value);
-        this.funcionarioService.exibirNotificacao(new Date(Date.now()).toString() + " - Funcionario inserido com sucesso.");
         console.log(`O funcionario foi salvo com sucesso.`);
       }
       else{
         await this.funcionarioService.editar(this.form.value);
-        this.funcionarioService.exibirNotificacao(new Date(Date.now()).toString() + " - Funcionario alterado com sucesso.");
         console.log(`O funcionario foi alterado com sucesso.`);
       }
     }
