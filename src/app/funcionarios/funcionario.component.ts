@@ -28,10 +28,10 @@ export class FuncionarioComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       id: new FormControl(""),
-      nome: new FormControl("", [Validators.required]),
-      email: new FormControl(""),
-      funcao: new FormControl(""),
-      departamento: new FormControl(""),
+      nome: new FormControl("", [Validators.required, Validators.minLength(3)]),
+      email: new FormControl("", [Validators.required, Validators.email]),
+      funcao: new FormControl("", [Validators.required, Validators.minLength(3)]),
+      departamento: new FormControl("", [Validators.required]),
       departamentoId: new FormControl("")
     });
 
@@ -76,21 +76,26 @@ export class FuncionarioComponent implements OnInit {
     try {
       await this.modalServie.open(modal).result;
 
-      // if (this.nome?.invalid) {
-      //   this.toastr.error("nome de funcionário inválido.", "Cadastro de Funcionário");
-      //   return;
-      // }
+      if(this.form.dirty && this.form.valid ) {
 
-      if(!funcionario) {
-        await this.funcionarioService.inserir(this.form.value);
-        console.log(`O funcionario foi salvo com sucesso.`);
+        if(!funcionario) {
+          await this.funcionarioService.inserir(this.form.value);
+          console.log(`O funcionário foi salvo com sucesso.`);
+          this.toastr.success("funcionário salvo com sucesso.");
+        }
+        else {
+          await this.funcionarioService.editar(this.form.value);
+          console.log(`O funcionário foi alterado com sucesso.`);
+          this.toastr.success("funcionário alterado com sucesso.");
+        }
       }
-      else{
-        await this.funcionarioService.editar(this.form.value);
-        console.log(`O funcionario foi alterado com sucesso.`);
+      else {
+        this.toastr.error("houve um erro nesta operação.");
       }
     }
-    catch (_error) {
+    catch (error) {
+      console.log(error);
+      this.toastr.error("houve um erro nesta operação.");
     }
 
   }

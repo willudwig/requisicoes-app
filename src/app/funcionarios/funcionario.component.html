@@ -51,33 +51,69 @@
     <form [formGroup]="form" (ngSubmit)="modal.close('gravar')">
       <div class="modal-body">
         <div class="mb-3">
+
           <label for="nome" class="form-label mt-3">Nome do Funcionário</label>
-          <div class="input-group">
-            <input formControlName="nome" class="form-control" placeholder="digite o nome do funcionário" type="text">
+          <div class="form-group position-relative">
+            <input
+              [ngClass]="(nome?.touched && nome?.invalid) ? 'is-invalid' : '' "
+              formControlName="nome"
+              class="form-control is-invalid"
+              placeholder="digite o nome do funcionário"
+              type="text">
+            <div class="invalid-tooltip" *ngIf="nome?.touched && nome?.invalid">
+              <span class="" *ngIf="nome?.errors?.['required']">nome do funcionário é obrigatório</span>
+              <span class="" *ngIf="nome?.errors?.['minlength']">nome deve ter ao menos 3 letras</span>
+            </div>
           </div>
 
           <label for="email" class="form-label mt-3">E-Mail</label>
-          <div class="input-group">
-            <input formControlName="email" class="form-control" placeholder="exemplo@gmail.com" type="mail">
+          <div class="form-group position-relative">
+            <input
+              [ngClass]="(email?.touched && email?.invalid) ? 'is-invalid' : '' "
+              formControlName="email" class="form-control is-invalid"
+              placeholder="digite o email do funcionário"
+              type="mail">
+            <div class="invalid-tooltip" *ngIf="email?.touched && email?.invalid">
+              <span class="" *ngIf="email?.errors?.['required']">e-mail do funcionário é obrigatório</span>
+              <span class="" *ngIf="email?.errors?.['email']">e-mail inválido</span>
+            </div>
           </div>
 
           <label for="funcao" class="form-label mt-3">Função</label>
-          <div class="input-group">
-            <input formControlName="funcao" class="form-control" placeholder="digite a função">
+          <div class="form-group position-relative">
+            <input
+              [ngClass]="(funcao?.touched && funcao?.invalid) ? 'is-invalid' : '' "
+              formControlName="funcao"
+              class="form-control is-invalid"
+              placeholder="digite a função do funcionário"
+              type="text">
+            <div class="invalid-tooltip" *ngIf="funcao?.touched && funcao?.invalid">
+              <span class="" *ngIf="funcao?.errors?.['required']">função do funcionário é obrigatória</span>
+              <span class="" *ngIf="funcao?.errors?.['minlength']">funcao deve ter ao menos 3 letras</span>
+            </div>
           </div>
 
           <label for="departamentoId" class="form-label mt-3">Departamento</label>
-          <div>
-            <ng-select formControlName="departamentoId" [clearable]="false" [searchable]="false">
-              <ng-option *ngFor="let departamento of (departamentos$ | async)" [value]="departamento.id">
-                {{departamento.nome}}
-              </ng-option>
-            </ng-select>
+          <div class="form-group position-relative">
+            <div>
+              <ng-select
+                [ngClass]="(departamento?.touched && departamento?.invalid) ? 'is-invalid' : '' "
+                formControlName="departamentoId"
+                [clearable]="false"
+                [searchable]="false">
+                <ng-option *ngFor="let departamento of (departamentos$ | async)" [value]="departamento.id">
+                  {{departamento.nome}}
+                </ng-option>
+              </ng-select>
+            </div>
+            <div class="invalid-tooltip" *ngIf="departamento?.touched && departamento?.invalid">
+              <span class="" *ngIf="departamento?.errors?.['required']">departamento do funcionário é obrigatório</span>
+            </div>
           </div>
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-primary col-md-3" (click)="modal.dismiss('fechar')">Cancelar</button>
+          <button type="button" class="btn btn-outline-primary col-md-3" (click)="modal.dismiss('fechar')" [disabled]="this.form.invalid">Cancelar</button>
           <button type="submit" class="btn btn-primary col-md-3">Gravar</button>
         </div>
       </div>
