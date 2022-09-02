@@ -54,10 +54,7 @@ registerLocaleData(ptBr);
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
       timeOut: 3000
-    }),
-    DepartamentoModule,
-    EquipamentoModule,
-    FuncionarioModule
+    })
   ],
 
   providers: [ AuthenticationService,

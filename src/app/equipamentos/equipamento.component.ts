@@ -66,13 +66,6 @@ export class EquipamentoComponent implements OnInit {
     try {
       await this.modalServie.open(modal).result;
 
-      let verificado = this.verificarRepetido(this.form.value);
-
-      if (verificado){
-          this.equipamentoService.exibirNotificacao("Equipamento duplicado.");
-          return;
-      }
-
       if(!equipamento){
         await this.equipamentoService.inserir(this.form.value);
         this.equipamentoService.exibirNotificacao(new Date(Date.now()).toString() + " - Equipamento inserido com sucesso.");
@@ -91,27 +84,6 @@ export class EquipamentoComponent implements OnInit {
 
   public excluir(equipamento: Equipamento) {
     return this.equipamentoService.excluir(equipamento);
-  }
-
-  public verificarRepetido(eqp: Equipamento): boolean {
-    let resultado = false;
-    const equipamentos = this.equipamentoService.selecionarTodos();
-
-    equipamentos.forEach(equipamento => {
-        equipamento.forEach(x => {
-          if(x.nome === eqp.nome && x.numeroSerie == eqp.numeroSerie && x.id !== eqp.id) {
-            resultado = true;
-            return;
-          }
-          else {
-          resultado = false;
-          return;
-          }
-        })
-
-      });
-
-    return resultado;
   }
 
 }

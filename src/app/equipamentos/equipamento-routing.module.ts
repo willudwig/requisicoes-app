@@ -4,7 +4,7 @@ import { EquipamentoComponent } from './equipamento.component';
 
 const routes: Routes = [
   {
-    path:"equipamentos",
+    path:"",
     component: EquipamentoComponent
   }
 ];
