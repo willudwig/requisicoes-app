@@ -84,10 +84,9 @@ export class EquipamentoComponent implements OnInit {
           //this.equipamentoService.exibirNotificacao(new Date(Date.now()).toString() + " - Equipamento alterado com sucesso.");
         }
       }
-      else {
+      else
         this.toastr.error("houve um erro nesta operação.");
 
-      }
     }
     catch (error) {
         console.log(error);

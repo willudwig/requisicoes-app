@@ -48,15 +48,37 @@
   <form [formGroup]="form" (ngSubmit)="modal.close('gravar')">
     <div class="modal-body">
       <div class="mb-3">
+
         <label for="nome" class="form-label">Nome do Departamento</label>
-        <div class="input-group">
-          <input formControlName="nome" class="form-control" placeholder="digite o nome do departamento" type="text">
+        <div class="form-group position-relative">
+          <input
+            [ngClass]="(nome?.touched && nome?.invalid) ? 'is-invalid' : '' "
+            class="form-control is-invalid"
+            formControlName="nome"
+            placeholder="digite o nome do departamento"
+            type="text"
+          >
+          <div class="invalid-tooltip" *ngIf="nome?.touched && nome?.invalid">
+            <span class="" *ngIf="nome?.errors?.['required']">nome do departamento é obrigatório</span>
+            <span class="" *ngIf="nome?.errors?.['minlength']">nome deve ter ao menos 3 letras</span>
+          </div>
         </div>
+
         <label for="telefone" class="form-label mt-3">Telefone do Departamento</label>
-        <div class="input-group">
-          <input formControlName="telefone" class="form-control" placeholder="digite o telefone" type="text">
+        <div class="form-group position-relative">
+          <input
+            [ngClass]="(telefone?.touched && telefone?.invalid) ? 'is-invalid' : '' "
+            class="form-control is-invalid"
+            formControlName="telefone"
+            placeholder="digite o telefone"
+            type="text"
+          >
+        </div>
+        <div class="invalid-tooltip" *ngIf="telefone?.touched && telefone?.invalid">
+          <span class="" *ngIf="telefone?.errors?.['required']">telefone é obrigatório</span>
         </div>
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-outline-primary col-md-3" (click)="modal.dismiss('fechar')">Cancelar</button>
         <button type="submit" class="btn btn-primary col-md-3">Gravar</button>

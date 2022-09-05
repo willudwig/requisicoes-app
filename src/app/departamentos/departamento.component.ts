@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Departamento } from './models/departamento.model';
 import { DepartamentoService } from './services/departamento.service';
@@ -16,16 +17,17 @@ export class DepartamentoComponent implements OnInit {
 
   constructor(private departamentoService: DepartamentoService,
               private fb: FormBuilder,
-              private modalServie: NgbModal
+              private modalServie: NgbModal,
+              private toastr: ToastrService
              ) { }
 
   ngOnInit(): void {
     this.departamentos$ = this.departamentoService.selecionarTodos();
 
     this.form = this.fb.group({
-      id: new FormControl(""),
-      nome: new FormControl(""),
-      telefone: new FormControl("")
+      id: new FormControl("", ),
+      nome: new FormControl("", [Validators.required, Validators.minLength(3)]),
+      telefone: new FormControl("", [Validators.required])
     });
 
   }
@@ -55,16 +57,26 @@ export class DepartamentoComponent implements OnInit {
     try {
       await this.modalServie.open(modal).result;
 
-      if(!departamento)
-        await this.departamentoService.inserir(this.form.value);
+      if(this.form.dirty && this.form.valid ) {
+
+        if(!departamento) {
+          await this.departamentoService.inserir(this.form.value);
+          console.log(`O departamento foi salvo com sucesso`);
+          this.toastr.success("funcionário salvo com sucesso.");
+        }
+        else {
+          await this.departamentoService.editar(this.form.value);
+          console.log(`O departamento foi alterado com sucesso`);
+          this.toastr.success("funcionário alterado com sucesso.");
+        }
+
+      }
       else
-        await this.departamentoService.editar(this.form.value);
-
-      console.log(`O departamento foi salvo com sucesso`);
-
+        this.toastr.error("houve um erro nesta operação.");
     }
-    catch (_error) {
-
+    catch (error) {
+      console.log(error);
+      this.toastr.error("houve um erro nesta operação.");
     }
 
   }
