@@ -75,8 +75,10 @@ export class DepartamentoComponent implements OnInit {
         this.toastr.error("houve um erro nesta operação.");
     }
     catch (error) {
-      console.log(error);
-      this.toastr.error("houve um erro nesta operação.");
+      if (error != "fechar" && error != "0" && error != "1") {
+        console.log(error);
+        this.toastr.error("houve um erro nesta operação.");
+      }
     }
 
   }

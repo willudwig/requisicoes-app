@@ -70,7 +70,7 @@ export class FuncionarioComponent implements OnInit {
         ...funcionario,
         departamento
       }
-      
+
       this.form.setValue(funcionarioCompleto);
     }
 
@@ -95,8 +95,10 @@ export class FuncionarioComponent implements OnInit {
       }
     }
     catch (error) {
-      console.log(error);
-      this.toastr.error("houve um erro nesta operação.");
+      if (error != "fechar" && error != "0" && error != "1") {
+        console.log(error);
+        this.toastr.error("houve um erro nesta operação.");
+      }
     }
 
   }

@@ -89,9 +89,11 @@ export class EquipamentoComponent implements OnInit {
 
     }
     catch (error) {
+      if (error != "fechar" && error != "0" && error != "1") {
         console.log(error);
         this.toastr.error("houve um erro nesta operação.");
       }
+    }
 
   }
 
