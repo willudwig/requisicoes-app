@@ -1,6 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { Equipamento } from './models/equipamento.model';
 import { EquipamentoService } from './services/equipamento.service';
@@ -15,9 +16,11 @@ export class EquipamentoComponent implements OnInit {
   public equipamentos$: Observable<Equipamento[]>;
   public form: FormGroup;
 
-  constructor(private equipamentoService: EquipamentoService,
+  constructor(
+              private equipamentoService: EquipamentoService,
               private fb: FormBuilder,
-              private modalServie: NgbModal
+              private modalServie: NgbModal,
+              private toastr: ToastrService
              ) { }
 
   ngOnInit(): void {
@@ -25,10 +28,10 @@ export class EquipamentoComponent implements OnInit {
 
     this.form = this.fb.group({
       id: new FormControl(""),
-      numeroSerie: new FormControl(""),
-      nome: new FormControl(""),
-      precoAquisicao: new FormControl(""),
-      dataFabricacao: new FormControl("")
+      numeroSerie: new FormControl("", [Validators.required, Validators.minLength(3)]),
+      nome: new FormControl("", [Validators.required, Validators.minLength(3)]),
+      precoAquisicao: new FormControl("", [Validators.required]),
+      dataFabricacao: new FormControl("", [Validators.required])
     });
 
   }
@@ -66,19 +69,30 @@ export class EquipamentoComponent implements OnInit {
     try {
       await this.modalServie.open(modal).result;
 
-      if(!equipamento){
-        await this.equipamentoService.inserir(this.form.value);
-        this.equipamentoService.exibirNotificacao(new Date(Date.now()).toString() + " - Equipamento inserido com sucesso.");
-        console.log(`O equipamento foi salvo com sucesso.`);
+      if(this.form.dirty && this.form.valid ) {
+
+        if(!equipamento){
+          await this.equipamentoService.inserir(this.form.value);
+          console.log(`O equipamento foi salvo com sucesso.`);
+          //this.equipamentoService.exibirNotificacao(new Date(Date.now()).toString() + " - Equipamento inserido com sucesso.");
+          this.toastr.success("funcionário salvo com sucesso.");
+        }
+        else{
+          await this.equipamentoService.editar(this.form.value);
+          console.log(`O equipamento foi alterado com sucesso.`);
+          this.toastr.success("funcionário alterado com sucesso.");
+          //this.equipamentoService.exibirNotificacao(new Date(Date.now()).toString() + " - Equipamento alterado com sucesso.");
+        }
       }
-      else{
-        await this.equipamentoService.editar(this.form.value);
-        this.equipamentoService.exibirNotificacao(new Date(Date.now()).toString() + " - Equipamento alterado com sucesso.");
-        console.log(`O equipamento foi alterado com sucesso.`);
+      else {
+        this.toastr.error("houve um erro nesta operação.");
+
       }
     }
-    catch (_error) {
-    }
+    catch (error) {
+        console.log(error);
+        this.toastr.error("houve um erro nesta operação.");
+      }
 
   }
 

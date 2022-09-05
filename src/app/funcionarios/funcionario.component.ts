@@ -70,6 +70,7 @@ export class FuncionarioComponent implements OnInit {
         ...funcionario,
         departamento
       }
+      
       this.form.setValue(funcionarioCompleto);
     }
 

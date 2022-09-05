@@ -52,25 +52,62 @@
   <form [formGroup]="form" (ngSubmit)="modal.close('gravar')">
     <div class="modal-body">
       <div class="mb-3">
+
         <label for="numeroSerie" class="form-label">Nº de Série</label>
-        <div class="input-group">
-          <input formControlName="numeroSerie" class="form-control" placeholder="digite o número de série" type="text">
+        <div class="form-group position-relative">
+          <input
+            [ngClass]="(numeroSerie?.touched && numeroSerie?.invalid) ? 'is-invalid' : '' "
+            class="form-control is-invalid"
+            formControlName="numeroSerie"
+            placeholder="digite o número de série"
+            type="text"
+          >
+          <div class="invalid-tooltip" *ngIf="numeroSerie?.touched && numeroSerie?.invalid">
+            <span class="" *ngIf="numeroSerie?.errors?.['required']">número de série é obrigatório</span>
+            <span class="" *ngIf="numeroSerie?.errors?.['minlength']">número de série deve ter ao menos 3 letras</span>
+          </div>
         </div>
+
         <label for="nome" class="form-label mt-3">Nome do Equipamento</label>
-        <div class="input-group">
-          <input formControlName="nome" class="form-control" placeholder="digite o nome do equipamento" type="text">
+        <div class="form-group position-relative">
+          <input
+            [ngClass]="(nome?.touched && nome?.invalid) ? 'is-invalid' : '' "
+            class="form-control is-invalid"
+            formControlName="nome"
+            placeholder="digite o nome do equipamento"
+            type="text"
+          >
+          <div class="invalid-tooltip" *ngIf="nome?.touched && nome?.invalid">
+            <span class="" *ngIf="nome?.errors?.['required']">nome do equipamento é obrigatório</span>
+            <span class="" *ngIf="nome?.errors?.['minlength']">nome deve ter ao menos 3 letras</span>
+          </div>
         </div>
+
         <label for="precoAquisicao" class="form-label mt-3">Preço de Aquisição</label>
-        <div class="input-group">
-          <input currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align:'left' }"
-                 formControlName="precoAquisicao"
-                 class="form-control"
-                 placeholder="R$ 0,00"
-           >
+        <div class="form-group position-relative">
+          <input
+            [ngClass]="(precoAquisicao?.touched && precoAquisicao?.invalid) ? 'is-invalid' : '' "
+            class="form-control is-invalid"
+            currencyMask [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align:'left' }"
+            formControlName="precoAquisicao"
+            placeholder="R$ 0,00"
+          >
+          <div class="invalid-tooltip" *ngIf="precoAquisicao?.touched && precoAquisicao?.invalid">
+            <span class="" *ngIf="precoAquisicao?.errors?.['required']">preço de aquisição é obrigatório</span>
+          </div>
         </div>
+
         <label for="dataFabricacao" class="form-label mt-3">Data de Fabricação</label>
-        <div class="input-group">
-          <input formControlName="dataFabricacao" class="form-control" type="date">
+        <div class="form-group position-relative">
+          <input
+            [ngClass]="(dataFabricacao?.touched && dataFabricacao?.invalid) ? 'is-invalid' : '' "
+            class="form-control is-invalid"
+            formControlName="dataFabricacao"
+            type="date"
+          >
+          <div class="invalid-tooltip" *ngIf="dataFabricacao?.touched && dataFabricacao?.invalid">
+            <span class="" *ngIf="dataFabricacao?.errors?.['required']">data de fabricação é obrigatório</span>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

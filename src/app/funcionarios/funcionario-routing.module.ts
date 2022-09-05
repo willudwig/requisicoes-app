@@ -4,7 +4,8 @@ import { FuncionarioComponent } from './funcionario.component';
 
 const routes: Routes = [
   {
-    path: "", component: FuncionarioComponent
+    path: "",
+    component: FuncionarioComponent
   }
 ];
 

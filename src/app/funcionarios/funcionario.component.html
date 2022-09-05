@@ -56,8 +56,8 @@
           <div class="form-group position-relative">
             <input
               [ngClass]="(nome?.touched && nome?.invalid) ? 'is-invalid' : '' "
-              formControlName="nome"
               class="form-control is-invalid"
+              formControlName="nome"
               placeholder="digite o nome do funcionário"
               type="text">
             <div class="invalid-tooltip" *ngIf="nome?.touched && nome?.invalid">
