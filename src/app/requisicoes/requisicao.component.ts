@@ -30,10 +30,10 @@ export class RequisicaoComponent implements OnInit {
     private fb: FormBuilder,
     private requisicaoService: RequisicaoService,
     private equipamentoService: EquipamentoService,
-    private funcionarioService: FuncionarioService,
     private departamentoService: DepartamentoService,
     private toastr: ToastrService,
     private modalServie: NgbModal,
+    private funcionarioService: FuncionarioService,
     private authService: AuthenticationService,
     private router: Router
   ) { }
@@ -47,7 +47,7 @@ export class RequisicaoComponent implements OnInit {
           departamento: new FormControl(""),
           equipamento: new FormControl(""),
           departamentoId: new FormControl("", [Validators.required]),
-          equipamentoId: new FormControl("", [Validators.required])
+          equipamentoId: new FormControl("", [Validators.required]),
           //funcionario: new FormControl(""),
           //funcionarioId: new FormControl("", [Validators.required]),
       }),
@@ -102,7 +102,7 @@ export class RequisicaoComponent implements OnInit {
         departamento,
         equipamento
         //funcionario
-      }
+      };
 
       this.form.get("requisicao")?.setValue(requisicaoCompleta);
     }

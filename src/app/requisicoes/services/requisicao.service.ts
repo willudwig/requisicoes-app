@@ -26,11 +26,11 @@ export class RequisicaoService {
     return this.registros.valueChanges().pipe(
       map( (requisicoes: Requisicao[]) => {
         requisicoes.forEach(requisicao => {
-          this.firestore
-              .collection<Departamento>("departamentos")
-              .doc(requisicao.departamentoId)
-              .valueChanges()
-              .subscribe(x => requisicao.departamento = x);
+            this.firestore
+                .collection<Departamento>("departamentos")
+                .doc(requisicao.departamentoId)
+                .valueChanges()
+                .subscribe(x => requisicao.departamento = x);
 
             this.firestore
             .collection<Equipamento>("equipamentos")
@@ -38,11 +38,11 @@ export class RequisicaoService {
             .valueChanges()
             .subscribe(x => requisicao.equipamento = x);
 
-            this.firestore
-              .collection<Funcionario>("funcionarios")
-              .doc(requisicao.funcionarioId)
-              .valueChanges()
-              .subscribe(x => requisicao.funcionario = x);
+            // this.firestore
+            //   .collection<Funcionario>("funcionarios")
+            //   .doc(requisicao.funcionarioId)
+            //   .valueChanges()
+            //   .subscribe(x => requisicao.funcionario = x);
         });
 
         return requisicoes;
