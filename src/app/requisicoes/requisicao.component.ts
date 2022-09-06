@@ -24,7 +24,6 @@ export class RequisicaoComponent implements OnInit {
   public requisicoes$: Observable<Requisicao[]>;
   public departamentos$: Observable<Departamento[]>;
   public equipamentos$: Observable<Equipamento[]>;
-  public funcionarios$: Observable<Funcionario[]>;
   public form: FormGroup;
 
   constructor(
@@ -45,12 +44,12 @@ export class RequisicaoComponent implements OnInit {
           id: new FormControl(""),
           dataAbertura: new FormControl("", [Validators.required]),
           descricao: new FormControl("", [Validators.required, Validators.minLength(3)]),
-          funcionario: new FormControl("", [Validators.required]),
-          departamento: new FormControl("", [Validators.required]),
+          departamento: new FormControl(""),
           equipamento: new FormControl(""),
-          funcionarioId: new FormControl("", [Validators.required]),
           departamentoId: new FormControl("", [Validators.required]),
           equipamentoId: new FormControl("", [Validators.required])
+          //funcionario: new FormControl(""),
+          //funcionarioId: new FormControl("", [Validators.required]),
       }),
 
     });
@@ -58,7 +57,6 @@ export class RequisicaoComponent implements OnInit {
     this.requisicoes$ = this.requisicaoService.selecionarTodos();
     this.departamentos$ = this.departamentoService.selecionarTodos();
     this.equipamentos$ = this.equipamentoService.selecionarTodos();
-    this.funcionarios$ = this.funcionarioService.selecionarTodos();
   }
 
   get tituloModal(): string {
@@ -73,18 +71,18 @@ export class RequisicaoComponent implements OnInit {
   get descricao(): AbstractControl | null {
     return this.form.get("requisicao.descricao");
   }
-  get funcionario(): AbstractControl | null {
-    return this.form.get("requisicao.funcionario");
-  }
+  // get funcionario(): AbstractControl | null {
+  //   return this.form.get("requisicao.funcionario");
+  // }
   get departamento(): AbstractControl | null {
     return this.form.get("requisicao.departamento");
   }
   get equipamento(): AbstractControl | null {
     return this.form.get("requisicao.equipamento");
   }
-  get funcionarioId(): AbstractControl | null {
-    return this.form.get("requisicao.funcionarioId");
-  }
+  // get funcionarioId(): AbstractControl | null {
+  //   return this.form.get("requisicao.funcionarioId");
+  // }
   get departamentoId(): AbstractControl | null {
     return this.form.get("requisicao.departamentoId");
   }
@@ -98,12 +96,12 @@ export class RequisicaoComponent implements OnInit {
     if(requisicao) {
       const departamento = requisicao.departamento ? requisicao.departamento : null;
       const equipamento = requisicao.equipamento ? requisicao.equipamento : null;
-      const funcionario = requisicao.funcionario ? requisicao.funcionario : null;
+      //const funcionario = requisicao.funcionario ? requisicao.funcionario : null;
       const requisicaoCompleta = {
         ...requisicao,
         departamento,
-        equipamento,
-        funcionario
+        equipamento
+        //funcionario
       }
 
       this.form.get("requisicao")?.setValue(requisicaoCompleta);
@@ -116,10 +114,6 @@ export class RequisicaoComponent implements OnInit {
 
         if(!requisicao) {
           await this.requisicaoService.inserir(this.form.get("requisicao")?.value);
-
-          await this.authService.logout();
-
-          await this.router.navigate(["/login"]);
 
           console.log(`A requisição foi salva com sucesso.`);
           this.toastr.success("requisição salva com sucesso.");

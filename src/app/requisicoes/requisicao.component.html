@@ -25,7 +25,7 @@
           </thead>
           <tbody class="text-center">
             <tr *ngFor="let requisicao of (requisicoes$ | async)">
-              <td>{{requisicao.dataAbertura}}</td>
+              <td>{{requisicao.dataAbertura | date: 'dd/MM/yyyy'}}</td>
               <td>{{requisicao.departamento?.nome}}</td>
               <td>{{requisicao.descricao}}</td>
               <td>{{requisicao.equipamento?.nome}}</td>
@@ -47,7 +47,7 @@
 
 <ng-template #modal let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">{{tituloModal}} de Requisição</h4>
+    <h4 class="modal-title" id="modal-basic-title user-select-none">{{tituloModal}} de Requisição</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('fechar')"></button>
   </div>
   <form [formGroup]="form" (ngSubmit)="modal.close('gravar')">
@@ -65,7 +65,7 @@
               type="date"
             >
             <div class="invalid-tooltip" *ngIf="dataAbertura?.touched && dataAbertura?.invalid">
-              <span class="" *ngIf="dataAbertura?.errors?.['required']">data de Abertura é obrigatório</span>
+              <span class="" *ngIf="dataAbertura?.errors?.['required']">data de Abertura é obrigatória</span>
 
             </div>
           </div>
@@ -85,7 +85,7 @@
               </ng-select>
             </div>
             <div class="invalid-tooltip" *ngIf="departamento?.touched && departamento?.invalid">
-              <span class="" *ngIf="departamento?.errors?.['required']">departamento do funcionário é obrigatório</span>
+              <span class="" *ngIf="departamento?.errors?.['required']">departamento é obrigatório</span>
             </div>
          </div>
 
