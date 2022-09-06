@@ -39,13 +39,16 @@
               </td>
             </tr>
           </tbody>
-        </table>
-      </div>
+       </table>
+     </div>
+   </div>
   </div>
+</div>
 
-  <ng-template #modal let-modal>
+
+<ng-template #modal let-modal>
     <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">{{tituloModal}} de Funcionario</h4>
+      <h4 class="modal-title" id="modal-basic-title">{{tituloModal}} de Funcionário</h4>
       <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('fechar')"></button>
     </div>
     <form [formGroup]="form" (ngSubmit)="modal.close('gravar')">
@@ -117,7 +120,7 @@
               </div>
            </div>
 
-        </div>
+        </div> <!---formGroupName-->
 
            <label for="senha" class="form-label mt-3">Senha</label>
            <div class="form-group mb-3 position-relative" *ngIf="!this.id?.value">
@@ -130,12 +133,11 @@
              >
            </div>
 
-
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-primary col-md-3" (click)="modal.dismiss('fechar')" [disabled]="this.form.invalid">Cancelar</button>
           <button type="submit" class="btn btn-primary col-md-3">Gravar</button>
         </div>
       </div>
     </form>
-  </ng-template>
+</ng-template>
 
