@@ -76,7 +76,7 @@ export class RequisicaoService {
     }
   }
 
-  public async excluir(registro: Equipamento): Promise<void> {
+  public async excluir(registro: Requisicao): Promise<void> {
     try {
       this.registros.doc(registro.id).delete();
       this.notificacaoToastr.exibirSucesso("Excluído com sucesso.");

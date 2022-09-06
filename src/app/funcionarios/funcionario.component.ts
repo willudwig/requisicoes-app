@@ -16,6 +16,7 @@ type NewType = Router;
   selector: 'app-funcionario',
   templateUrl: './funcionario.component.html',
 })
+
 export class FuncionarioComponent implements OnInit {
   public funcionarios$: Observable<Funcionario[]>;
   public departamentos$: Observable<Departamento[]>;
@@ -34,12 +35,12 @@ export class FuncionarioComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       funcionario: new FormGroup({
-        id: new FormControl(""),
-        nome: new FormControl("", [Validators.required, Validators.minLength(3)]),
-        email: new FormControl("", [Validators.required, Validators.email]),
-        funcao: new FormControl("", [Validators.required, Validators.minLength(3)]),
-        departamento: new FormControl(""),
-        departamentoId: new FormControl("", [Validators.required])
+          id: new FormControl(""),
+          nome: new FormControl("", [Validators.required, Validators.minLength(3)]),
+          email: new FormControl("", [Validators.required, Validators.email]),
+          funcao: new FormControl("", [Validators.required, Validators.minLength(3)]),
+          departamento: new FormControl(""),
+          departamentoId: new FormControl("", [Validators.required])
       }),
       senha: new FormControl("")
     });
@@ -48,6 +49,9 @@ export class FuncionarioComponent implements OnInit {
     this.departamentos$ = this.departamentoService.selecionarTodos();
   }
 
+  get tituloModal(): string {
+    return this.id?.value ? "Atualizar" : "Cadastro";
+  }
   get id(): AbstractControl | null {
     return this.form.get("funcionario.id");
   }
@@ -65,9 +69,6 @@ export class FuncionarioComponent implements OnInit {
   }
   get departamentoId(): AbstractControl | null {
     return this.form.get("funcionario.departamentoId");
-  }
-  get tituloModal(): string {
-    return this.id?.value ? "Atualizar" : "Cadastro";
   }
   get senha(): AbstractControl | null  {
     return this.form.get("senha");

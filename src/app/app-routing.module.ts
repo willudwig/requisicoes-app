@@ -6,7 +6,7 @@ import { LoginGuard } from './auth/services/login.guard';
 import { PainelComponent } from './painel/painel.component';
 
 const routes: Routes = [
-  {path:"", redirectTo:"login", pathMatch: "full"}, //aqui seria a 'home' só redireiconada para o 'login'
+  {path:"", redirectTo:"login", pathMatch: "full"}, //aqui é a 'home' redireiconada para o 'login'
   {path:"login", component: LoginComponent, canActivate: [LoginGuard]},
   {path:"painel", component: PainelComponent, canActivate: [AuthGuard]},
 
@@ -22,6 +22,10 @@ const routes: Routes = [
     path:"funcionarios", loadChildren: () => import("./funcionarios/funcionario.module")
           .then(m => m.FuncionarioModule), canActivate: [AuthGuard]
   },
+  {
+    path:"requisicoes", loadChildren: () => import("./requisicoes/requisicao.module")
+          .then(m => m.RequisicaoModule), canActivate: [AuthGuard]
+  },
 
 ];
 
@@ -29,4 +33,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }
