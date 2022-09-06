@@ -4,7 +4,7 @@ import { Observable, map } from 'rxjs';
 import { Departamento } from 'src/app/departamentos/models/departamento.model';
 import { MessageService } from 'src/app/messages/material_component/services/message.service';
 import { NotificacaoToastrService } from 'src/app/messages/toastr/services/toastr.service';
-import { Funcionario } from '../models/fincionario.model';
+import { Funcionario } from '../models/funcionario.model';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +37,6 @@ export class FuncionarioService {
 
       })
     );
-
   }
 
   public async inserir(registro: Funcionario): Promise<any> {
@@ -53,7 +52,6 @@ export class FuncionarioService {
     }
     catch(error) {
       this.notificacaoToastr.exibirErro(error);
-
     }
   }
 
@@ -64,7 +62,6 @@ export class FuncionarioService {
     catch (error) {
       this.notificacaoToastr.exibirErro(error);
     }
-
   }
 
   public async excluir(registro: Funcionario): Promise<void> {
@@ -75,7 +72,6 @@ export class FuncionarioService {
     catch (error) {
       this.notificacaoToastr.exibirErro(error);
     }
-
   }
 
   public exibirNotificacao(notificacao: string): void {
