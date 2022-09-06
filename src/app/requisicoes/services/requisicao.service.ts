@@ -33,10 +33,10 @@ export class RequisicaoService {
                 .subscribe(x => requisicao.departamento = x);
 
             this.firestore
-            .collection<Equipamento>("equipamentos")
-            .doc(requisicao.equipamentoId)
-            .valueChanges()
-            .subscribe(x => requisicao.equipamento = x);
+                .collection<Equipamento>("equipaamentos")
+                .doc(requisicao.equipamentoId)
+                .valueChanges()
+                .subscribe(x => requisicao.equipamento = x);
 
             // this.firestore
             //   .collection<Funcionario>("funcionarios")
