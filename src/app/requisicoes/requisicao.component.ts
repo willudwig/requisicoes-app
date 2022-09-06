@@ -3,7 +3,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
+import { map, Observable, pipe } from 'rxjs';
 import { AuthenticationService } from '../auth/services/authentication.service';
 import { Departamento } from '../departamentos/models/departamento.model';
 import { DepartamentoService } from '../departamentos/services/departamento.service';
@@ -26,6 +26,9 @@ export class RequisicaoComponent implements OnInit {
   public equipamentos$: Observable<Equipamento[]>;
   public form: FormGroup;
 
+  funcionarioLogado: Funcionario;
+  deveExibirMovimentacoes: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private requisicaoService: RequisicaoService,
@@ -35,7 +38,7 @@ export class RequisicaoComponent implements OnInit {
     private modalServie: NgbModal,
     private funcionarioService: FuncionarioService,
     private authService: AuthenticationService,
-    private router: Router
+
   ) { }
 
   ngOnInit(): void {
@@ -141,4 +144,44 @@ export class RequisicaoComponent implements OnInit {
     return this.requisicaoService.excluir(requisicao);
   }
 
+  public obterFuncionarioLogado() {
+    this.authService.usuarioLogado
+    .subscribe
+    (
+      dados =>
+      {
+        this.funcionarioService.selecionarFuncionarioLogado(dados!.email!)
+          .subscribe
+          (
+            funcionario =>
+            {
+               this.funcionarioLogado = funcionario;
+               this.requisicoes$ = this.requisicaoService.selecionarTodos()
+                .pipe
+                (
+                  map
+                  (
+                    requisicoes =>
+                    {
+                      return requisicoes.filter( r => r.solicitante.email === this.funcionarioLogado.email );
+                    }
+                  )
+                )
+            }
+          )
+      }
+    )
+  }
+
+  public setValoresPadrao() {
+    this.form.patchValue
+    (
+      {
+        solicitante: this.funcionarioLogado,
+        status: 'Aberto',
+        dataAbertura: new Date(),
+        ultimaAtualizacao: new Date()
+      }
+    )
+  }
 }

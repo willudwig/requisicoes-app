@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { Observable, map } from 'rxjs';
+import { Observable, map, take } from 'rxjs';
 import { Departamento } from 'src/app/departamentos/models/departamento.model';
 import { Equipamento } from 'src/app/equipamentos/models/equipamento.model';
-import { Funcionario } from 'src/app/funcionarios/models/funcionario.model';
 import { NotificacaoToastrService } from 'src/app/messages/toastr/services/toastr.service';
 import { Requisicao } from '../models/requisicao.model';
 

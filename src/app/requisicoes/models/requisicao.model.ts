@@ -7,9 +7,10 @@ export class Requisicao {
   dataAbertura: string;
   descricao: string;
   //funcionario?: Funcionario;
+  //funcionarioId: string;
   departamento?: Departamento;
   equipamento?: Equipamento;
- //funcionarioId: string;
   departamentoId: string;
   equipamentoId: string;
+  solicitante: any;
 }
