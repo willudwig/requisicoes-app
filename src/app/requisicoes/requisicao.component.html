@@ -28,7 +28,7 @@
               <td>{{requisicao.dataAbertura | date: 'dd/MM/yyyy'}}</td>
               <td>{{requisicao.departamento?.nome}}</td>
               <td>{{requisicao.descricao}}</td>
-              <td>{{requisicao.equipamento?.nome}}</td>
+              <td>{{requisicao.equipamento ? requisicao.equipamento.nome : "Não Selecionado"}}</td>
               <td class="d-grid d-md-block">
                   <button (click)="gravar(modal, requisicao)" type="button" class="btn btn-primary me-0 me-md-1 mb-1 mb-md-auto">
                     <i class="pi pi-user-edit"></i>
@@ -113,7 +113,6 @@
                [ngClass]="(equipamentoId?.touched && equipamentoId?.invalid) ? 'is-invalid' : '' "
                formControlName="equipamentoId"
                placeholder="Selecione..."
-               [clearable]="false"
                [searchable]="false">
                  <ng-option *ngFor="let equipamento of (equipamentos$ | async)" [value]="equipamento.id">
                    {{equipamento.nome}}

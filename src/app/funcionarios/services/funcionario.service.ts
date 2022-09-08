@@ -22,7 +22,7 @@ export class FuncionarioService {
      this.registros = this.firestore.collection<Funcionario>("funcionarios");
   }
 
-  public selecionarFuncionarioLogado(email: string) {
+  public selecionarFuncionarioLogado(email: string): Observable<Funcionario> {
     return this.firestore.collection<Funcionario> (
      'funcionarios',
       ref => ref.where(

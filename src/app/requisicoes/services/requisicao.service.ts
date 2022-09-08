@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/comp
 import { Observable, map, take } from 'rxjs';
 import { Departamento } from 'src/app/departamentos/models/departamento.model';
 import { Equipamento } from 'src/app/equipamentos/models/equipamento.model';
+import { Funcionario } from 'src/app/funcionarios/models/funcionario.model';
 import { NotificacaoToastrService } from 'src/app/messages/toastr/services/toastr.service';
 import { Requisicao } from '../models/requisicao.model';
 
@@ -31,23 +32,37 @@ export class RequisicaoService {
                 .valueChanges()
                 .subscribe(x => requisicao.departamento = x);
 
-            this.firestore
+
+            if(requisicao.equipamentoId) {
+                this.firestore
                 .collection<Equipamento>("equipaamentos")
                 .doc(requisicao.equipamentoId)
                 .valueChanges()
                 .subscribe(x => requisicao.equipamento = x);
+            }
 
-            // this.firestore
-            //   .collection<Funcionario>("funcionarios")
-            //   .doc(requisicao.funcionarioId)
-            //   .valueChanges()
-            //   .subscribe(x => requisicao.funcionario = x);
+            this.firestore
+              .collection<Funcionario>("funcionarios")
+              .doc(requisicao.funcionarioId)
+              .valueChanges()
+              .subscribe(x => requisicao.funcionario = x);
         });
 
         return requisicoes;
 
       })
     );
+  }
+
+  public selecionarRequisicoesFuncionarioAtual(id: string) {
+    return this.selecionarTodos()
+      .pipe(
+        map(
+          requisicoes => {
+            return requisicoes.filter(req => req.funcionarioId === id);
+          }
+        )
+      )
   }
 
   public async inserir(registro: Requisicao): Promise<any> {

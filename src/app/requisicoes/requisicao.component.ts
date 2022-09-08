@@ -1,9 +1,9 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
-import { map, Observable, pipe } from 'rxjs';
+import { map, Observable, pipe, Subscription } from 'rxjs';
 import { AuthenticationService } from '../auth/services/authentication.service';
 import { Departamento } from '../departamentos/models/departamento.model';
 import { DepartamentoService } from '../departamentos/services/departamento.service';
@@ -20,13 +20,13 @@ import { RequisicaoService } from './services/requisicao.service';
   styleUrls: ['./requisicao.component.css']
 })
 
-export class RequisicaoComponent implements OnInit {
+export class RequisicaoComponent implements OnInit, OnDestroy {
   public requisicoes$: Observable<Requisicao[]>;
   public departamentos$: Observable<Departamento[]>;
   public equipamentos$: Observable<Equipamento[]>;
   public form: FormGroup;
 
-  funcionarioLogado: Funcionario;
+  funcionarioLogadoId: string;
   deveExibirMovimentacoes: boolean = false;
 
   constructor(
@@ -34,14 +34,26 @@ export class RequisicaoComponent implements OnInit {
     private requisicaoService: RequisicaoService,
     private equipamentoService: EquipamentoService,
     private departamentoService: DepartamentoService,
+    private funcionarioService: FuncionarioService,
     private toastr: ToastrService,
     private modalServie: NgbModal,
-    private funcionarioService: FuncionarioService,
     private authService: AuthenticationService,
+    private processoAutenticado: Subscription,
 
   ) { }
 
   ngOnInit(): void {
+    this.processoAutenticado = this.authService.usuarioLogado.subscribe( usuario =>
+      {
+        const email: string = usuario?.email!;
+        this.funcionarioService.selecionarFuncionarioLogado(email)
+            .subscribe( funcionario =>
+              {
+                this.funcionarioLogadoId = funcionario.id;
+                this.requisicoes$ = this.requisicaoService.selecionarRequisicoesFuncionarioAtual(this.funcionarioLogadoId);
+              }),
+      } );
+
     this.form = this.fb.group({
       requisicao: new FormGroup({
           id: new FormControl(""),
@@ -51,16 +63,21 @@ export class RequisicaoComponent implements OnInit {
           equipamento: new FormControl(""),
           departamentoId: new FormControl("", [Validators.required]),
           equipamentoId: new FormControl("", [Validators.required]),
-          //funcionario: new FormControl(""),
-          //funcionarioId: new FormControl("", [Validators.required]),
+          funcionario: new FormControl(""),
+          funcionarioId: new FormControl("", [Validators.required]),
       }),
 
     });
 
-    this.requisicoes$ = this.requisicaoService.selecionarTodos();
+    //this.requisicoes$ = this.requisicaoService.selecionarTodos();
     this.departamentos$ = this.departamentoService.selecionarTodos();
     this.equipamentos$ = this.equipamentoService.selecionarTodos();
   }
+
+  ngOnDestroy(): void {
+    this.processoAutenticado.unsubscribe();
+  }
+
 
   get tituloModal(): string {
     return this.id?.value ? "Atualizar" : "Cadastro";
@@ -94,17 +111,18 @@ export class RequisicaoComponent implements OnInit {
   }
 
   public async gravar(modal: TemplateRef<any>, requisicao?: Requisicao) {
-    this.form.reset;
+    this.form.reset();
+    this.configurarValoresPadrao();
 
     if(requisicao) {
       const departamento = requisicao.departamento ? requisicao.departamento : null;
       const equipamento = requisicao.equipamento ? requisicao.equipamento : null;
-      //const funcionario = requisicao.funcionario ? requisicao.funcionario : null;
+      const funcionario = requisicao.funcionario ? requisicao.funcionario : null;
       const requisicaoCompleta = {
         ...requisicao,
         departamento,
-        equipamento
-        //funcionario
+        equipamento,
+        funcionario
       };
 
       this.form.get("requisicao")?.setValue(requisicaoCompleta);
@@ -183,5 +201,11 @@ export class RequisicaoComponent implements OnInit {
         ultimaAtualizacao: new Date()
       }
     )
+  }
+
+  private configurarValoresPadrao() {
+    this.form.get("dataAbertura")?.setValue(new Date());
+    this.form.get("equipamentoId")?.setValue(null);
+    this.form.get("funcionarioId")?.setValue(this.funcionarioLogadoId);
   }
 }
