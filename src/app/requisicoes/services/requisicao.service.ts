@@ -54,12 +54,23 @@ export class RequisicaoService {
     );
   }
 
-  public selecionarRequisicoesFuncionarioAtual(id: string) {
+  public selecionarRequisicoesFuncionarioAtual(id: string):Observable<Requisicao[]> {
     return this.selecionarTodos()
       .pipe(
         map(
           requisicoes => {
             return requisicoes.filter(req => req.funcionarioId === id);
+          }
+        )
+      )
+  }
+
+  public selecionarRequisicoesParaMeuDepartamento(id: string, departamento: Departamento) {
+    return this.selecionarTodos()
+      .pipe(
+        map(
+          requisicoes => {
+            return requisicoes.filter(req => req.funcionarioId === id && req.departamento === departamento);
           }
         )
       )

@@ -14,6 +14,10 @@ const routes: Routes = [
       },
 
       {
+        path:"", redirectTo:"departamento", pathMatch: "full"
+      },
+
+      {
          path:"funcionario",
          component: RequisicoesFuncionarioComponent
       },

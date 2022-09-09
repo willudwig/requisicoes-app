@@ -26,7 +26,6 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
   private processoAutenticado: Subscription
 
   funcionarioLogadoId: string;
-  deveExibirMovimentacoes: boolean = false;
 
   constructor(
     private fb: FormBuilder,
