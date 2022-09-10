@@ -10,6 +10,7 @@ import { Equipamento } from 'src/app/equipamentos/models/equipamento.model';
 import { FuncionarioService } from 'src/app/funcionarios/services/funcionario.service';
 import { Requisicao } from '../models/requisicao.model';
 import { RequisicaoService } from '../services/requisicao.service';
+import { RequisicaoDepartamento } from './model/requisicoes-departamento.model';
 
 @Component({
   selector: 'app-requisicoes-departamento',
@@ -17,11 +18,13 @@ import { RequisicaoService } from '../services/requisicao.service';
 })
 export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
 
+  public requisicoesDepartamento$: Observable<RequisicaoDepartamento[]>;
   public requisicoes$: Observable<Requisicao[]>;
   public departamentos$: Observable<Departamento[]>;
   public equipamentos$: Observable<Equipamento[]>;
   public form: FormGroup;
-  private processoAutenticado: Subscription
+  private processoAutenticado: Subscription;
+  private requisicaoDepartamentoCompleta: RequisicaoDepartamento;
 
   departamentoSolicitanteId: string;
   funcionarioLogadoId: string;
@@ -57,6 +60,7 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
           status: new FormControl("", [Validators.required]),
           departamento: new FormControl(""),
           departamentoId: new FormControl("", [Validators.required]),
+          movimentacoes: new FormControl("")
       });
 
     }
@@ -78,10 +82,32 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
     return this.form.get("status");
   }
   get departamento(): AbstractControl | null {
-    return this.form.get("requisicao.departamento");
+    return this.form.get("departamento");
   }
   get departamentoId(): AbstractControl | null {
-    return this.form.get("requisicao.departamentoId");
+    return this.form.get("departamentoId");
+  }
+  get movimentacoes(): AbstractControl | null {
+    return this.form.get("movimentacoes");
+  }
+
+  public gravar() {
+
+  }
+
+  public excluir() {
+
+  }
+
+  private iniciarComponentes() {
+
+    this.requisicaoDepartamentoCompleta.dataAbertura = this.dataAbertura;
+    this.requisicaoDepartamentoCompleta.dataUltimaAtualizacao = this.dataUltimaAtualizacao;
+    this.requisicaoDepartamentoCompleta.descricao = this.descricao?.value;
+    this.requisicaoDepartamentoCompleta.status = this.status?.value;
+    this.requisicaoDepartamentoCompleta.departamento = this.departamento?.value;
+
+    this.form.setValue(this.requisicaoDepartamentoCompleta);
   }
 
 }

@@ -65,7 +65,6 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
 
     });
 
-    //this.requisicoes$ = this.requisicaoService.selecionarTodos();
     this.departamentos$ = this.departamentoService.selecionarTodos();
     this.equipamentos$ = this.equipamentoService.selecionarTodos();
   }
@@ -157,47 +156,6 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
   public excluir(requisicao: Requisicao) {
     return this.requisicaoService.excluir(requisicao);
   }
-
-  // public obterFuncionarioLogado() {
-  //   this.authService.usuarioLogado
-  //   .subscribe
-  //   (
-  //     dados =>
-  //     {
-  //       this.funcionarioService.selecionarFuncionarioLogado(dados!.email!)
-  //         .subscribe
-  //         (
-  //           funcionario =>
-  //           {
-  //              this.funcionarioLogado = funcionario;
-  //              this.requisicoes$ = this.requisicaoService.selecionarTodos()
-  //               .pipe
-  //               (
-  //                 map
-  //                 (
-  //                   requisicoes =>
-  //                   {
-  //                     return requisicoes.filter( r => r.solicitante.email === this.funcionarioLogado.email );
-  //                   }
-  //                 )
-  //               )
-  //           }
-  //         )
-  //     }
-  //   )
-  // }
-
-  // public setValoresPadrao() {
-  //   this.form.patchValue
-  //   (
-  //     {
-  //       solicitante: this.funcionarioLogado,
-  //       status: 'Aberto',
-  //       dataAbertura: new Date(),
-  //       ultimaAtualizacao: new Date()
-  //     }
-  //   )
-  // }
 
   private configurarValoresPadrao() {
     this.form.get("dataAbertura")?.setValue(new Date());
