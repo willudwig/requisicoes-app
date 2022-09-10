@@ -49,7 +49,7 @@ export class DepartamentoComponent implements OnInit {
   }
 
   public async gravar(modal: TemplateRef<any>, departamento?: Departamento) {
-    this.form.reset;
+    this.form.reset();
 
     if(departamento)
       this.form.setValue(departamento);

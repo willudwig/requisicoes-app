@@ -39,6 +39,25 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.form = this.fb.group({
+      requisicao: new FormGroup({
+          id: new FormControl(""),
+          dataAbertura: new FormControl(""), //, [Validators.required]
+          descricao: new FormControl(""), //, [Validators.required, Validators.minLength(3)]
+          departamento: new FormControl(""),
+          equipamento: new FormControl(""),
+          funcionario: new FormControl(""),
+          departamentoId: new FormControl(""), //, [Validators.required]
+          equipamentoId: new FormControl(""), //, [Validators.required]
+          funcionarioId: new FormControl(""), //, [Validators.required]
+      }),
+
+    });
+
+    this.requisicoes$ = this.requisicaoService.selecionarTodos();
+    this.departamentos$ = this.departamentoService.selecionarTodos();
+    this.equipamentos$ = this.equipamentoService.selecionarTodos();
+
     this.processoAutenticado = this.authService.usuarioLogado.subscribe( usuario =>
       {
         const email: string = usuario?.email!;
@@ -49,24 +68,6 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
                 this.requisicoes$ = this.requisicaoService.selecionarRequisicoesFuncionarioAtual(this.funcionarioLogadoId);
               })
       } );
-
-    this.form = this.fb.group({
-      requisicao: new FormGroup({
-          id: new FormControl(""),
-          dataAbertura: new FormControl("", [Validators.required]),
-          descricao: new FormControl("", [Validators.required, Validators.minLength(3)]),
-          departamento: new FormControl(""),
-          equipamento: new FormControl(""),
-          departamentoId: new FormControl("", [Validators.required]),
-          equipamentoId: new FormControl("", [Validators.required]),
-          funcionario: new FormControl(""),
-          funcionarioId: new FormControl("", [Validators.required]),
-      }),
-
-    });
-
-    this.departamentos$ = this.departamentoService.selecionarTodos();
-    this.equipamentos$ = this.equipamentoService.selecionarTodos();
   }
 
   ngOnDestroy(): void {
@@ -158,7 +159,7 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
   }
 
   private configurarValoresPadrao() {
-    this.form.get("dataAbertura")?.setValue(new Date());
+    this.form.get("dataAbertura")?.setValue(new Date(Date.now()));
     this.form.get("equipamentoId")?.setValue(null);
     this.form.get("funcionarioId")?.setValue(this.funcionarioLogadoId);
   }

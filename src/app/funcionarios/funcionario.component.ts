@@ -75,7 +75,7 @@ export class FuncionarioComponent implements OnInit {
   }
 
   public async gravar(modal: TemplateRef<any>, funcionario?: Funcionario) {
-    this.form.reset;
+    this.form.reset();
 
     if(funcionario) {
       const departamento = funcionario.departamento ? funcionario.departamento : null;
@@ -93,6 +93,7 @@ export class FuncionarioComponent implements OnInit {
       if(this.form.dirty && this.form.valid ) {
 
         if(!funcionario) {
+
           await this.authService.cadastrar(this.email?.value, this.senha?.value);
 
           await this.funcionarioService.inserir(this.form.get("funcionario")?.value);
@@ -111,7 +112,7 @@ export class FuncionarioComponent implements OnInit {
         }
       }
       else {
-        this.toastr.error("houve um erro nesta operação.");
+        this.toastr.error("houve um erro ao gravar.");
       }
     }
     catch (error) {

@@ -61,7 +61,7 @@ export class EquipamentoComponent implements OnInit {
   }
 
   public async gravar(modal: TemplateRef<any>, equipamento?: Equipamento) {
-    this.form.reset;
+    this.form.reset();
 
     if(equipamento)
       this.form.setValue(equipamento);
@@ -74,14 +74,12 @@ export class EquipamentoComponent implements OnInit {
         if(!equipamento){
           await this.equipamentoService.inserir(this.form.value);
           console.log(`O equipamento foi salvo com sucesso.`);
-          //this.equipamentoService.exibirNotificacao(new Date(Date.now()).toString() + " - Equipamento inserido com sucesso.");
           this.toastr.success("funcionário salvo com sucesso.");
         }
         else{
           await this.equipamentoService.editar(this.form.value);
           console.log(`O equipamento foi alterado com sucesso.`);
           this.toastr.success("funcionário alterado com sucesso.");
-          //this.equipamentoService.exibirNotificacao(new Date(Date.now()).toString() + " - Equipamento alterado com sucesso.");
         }
       }
       else

@@ -64,10 +64,9 @@
               formControlName="dataAbertura"
               type="date"
             >
-            <div class="invalid-tooltip" *ngIf="dataAbertura?.touched && dataAbertura?.invalid">
+           <!-- <div class="invalid-tooltip" *ngIf="dataAbertura?.touched && dataAbertura?.invalid">
               <span class="" *ngIf="dataAbertura?.errors?.['required']">data de Abertura é obrigatória</span>
-
-            </div>
+           </div> -->
           </div>
 
           <label for="departamentoId" class="form-label mt-3">Departamento</label>
@@ -84,9 +83,9 @@
                   </ng-option>
               </ng-select>
             </div>
-            <div class="invalid-tooltip" *ngIf="departamento?.touched && departamento?.invalid">
+           <!-- <div class="invalid-tooltip" *ngIf="departamento?.touched && departamento?.invalid">
               <span class="" *ngIf="departamento?.errors?.['required']">departamento é obrigatório</span>
-            </div>
+            </div> -->
          </div>
 
          <label for="descricao" class="form-label mt-3">Descrição</label>
@@ -100,10 +99,10 @@
                 placeholder="descreva aqui...">
               </textarea>
           </div>
-          <div class="invalid-tooltip" *ngIf="descricao?.touched && descricao?.invalid">
+         <!-- <div class="invalid-tooltip" *ngIf="descricao?.touched && descricao?.invalid">
             <span class="" *ngIf="descricao?.errors?.['required']">descrição é obrigatória</span>
             <span class="" *ngIf="descricao?.errors?.['minlength']">descrição deve ter ao menos 3 letras</span>
-          </div>
+          </div>-->
         </div>
 
          <label for="equipamentoId" class="form-label mt-3">Equipamento</label>
@@ -119,9 +118,9 @@
                  </ng-option>
              </ng-select>
            </div>
-           <div class="invalid-tooltip" *ngIf="equipamento?.touched && equipamento?.invalid">
+           <!--<div class="invalid-tooltip" *ngIf="equipamento?.touched && equipamento?.invalid">
              <span class="" *ngIf="equipamento?.errors?.['required']">equipamento é obrigatório</span>
-           </div>
+           </div>-->
         </div>
 
       </div> <!---formGroupName-->
