@@ -54,7 +54,7 @@ export class RequisicaoService {
     );
   }
 
-  public selecionarRequisicoesFuncionarioAtual(id: string):Observable<Requisicao[]> {
+  public selecionarRequisicoesFuncionarioAtual(id: string): Observable<Requisicao[]> {
     return this.selecionarTodos()
       .pipe(
         map(
@@ -65,12 +65,12 @@ export class RequisicaoService {
       )
   }
 
-  public selecionarRequisicoesParaMeuDepartamento(id: string, departamento: Departamento) {
+  public selecionarRequisicoesParaMeuDepartamento(departamento: Departamento) {
     return this.selecionarTodos()
       .pipe(
         map(
           requisicoes => {
-            return requisicoes.filter(req => req.funcionarioId === id && req.departamento === departamento);
+            return requisicoes.filter(req => req.departamento === departamento);
           }
         )
       )
@@ -85,10 +85,11 @@ export class RequisicaoService {
       const res = await this.registros.add(registro);
       registro.id = res.id;
       this.registros.doc(res.id).set(registro);
-      this.notificacaoToastr.exibirSucesso("Inserido com sucesso.");
+      this.notificacaoToastr.exibirSucesso("pelo service.ts, inserido com sucesso.");
     }
     catch(error) {
       this.notificacaoToastr.exibirErro(error);
+      console.log("pelo service.ts ocorreu um erro: " + error);
     }
   }
 

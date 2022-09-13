@@ -50,11 +50,15 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
           departamentoId: new FormControl(""), //, [Validators.required]
           equipamentoId: new FormControl(""), //, [Validators.required]
           funcionarioId: new FormControl(""), //, [Validators.required]
+
+          status: new FormControl(""),
+          ultimaAtualizacao: new FormControl(""),
+          movimentacoes: new FormControl(""),
       }),
 
     });
 
-    this.requisicoes$ = this.requisicaoService.selecionarTodos();
+
     this.departamentos$ = this.departamentoService.selecionarTodos();
     this.equipamentos$ = this.equipamentoService.selecionarTodos();
 
@@ -87,18 +91,18 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
   get descricao(): AbstractControl | null {
     return this.form.get("requisicao.descricao");
   }
-  // get funcionario(): AbstractControl | null {
-  //   return this.form.get("requisicao.funcionario");
-  // }
+  get funcionario(): AbstractControl | null {
+    return this.form.get("requisicao.funcionario");
+  }
   get departamento(): AbstractControl | null {
     return this.form.get("requisicao.departamento");
   }
   get equipamento(): AbstractControl | null {
     return this.form.get("requisicao.equipamento");
   }
-  // get funcionarioId(): AbstractControl | null {
-  //   return this.form.get("requisicao.funcionarioId");
-  // }
+  get funcionarioId(): AbstractControl | null {
+    return this.form.get("requisicao.funcionarioId");
+  }
   get departamentoId(): AbstractControl | null {
     return this.form.get("requisicao.departamentoId");
   }
@@ -132,22 +136,22 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
         if(!requisicao) {
           await this.requisicaoService.inserir(this.form.get("requisicao")?.value);
 
-          console.log(`A requisição foi salva com sucesso.`);
+          console.log("Sucesso ao salvar pelo component.ts.");
           this.toastr.success("requisição salva com sucesso.");
         }
         else {
           await this.requisicaoService.editar(this.form.get("requisicao")?.value);
-          console.log(`A requisição foi alterada com sucesso.`);
+          console.log("Sucesso ao  alterar pelo component.ts.");
           this.toastr.success("requisição alterada com sucesso.");
         }
       }
       else {
-        this.toastr.error("houve um erro nesta operação.");
+        this.toastr.error("houve um erro ao salvar/editar.");
       }
     }
     catch (error) {
       if (error != "fechar" && error != "0" && error != "1") {
-        console.log(error);
+        console.log("Erro ao salvar/editar pelo component.ts" + error);
         this.toastr.error("houve um erro nesta operação.");
       }
     }
@@ -159,10 +163,11 @@ export class RequisicoesFuncionarioComponent implements OnInit, OnDestroy {
   }
 
   private configurarValoresPadrao() {
-    this.form.get("dataAbertura")?.setValue(new Date(Date.now()));
-    this.form.get("equipamentoId")?.setValue(null);
-    this.form.get("funcionarioId")?.setValue(this.funcionarioLogadoId);
+    this.form.get("requisicao.status")?.setValue("Aberta");
+    this.form.get("requisicao.dataAbertura")?.setValue(new Date());
+    this.form.get("requisicao.ultimaAtualizacao")?.setValue(new Date());
+    this.form.get("requisicao.equipamentoId")?.setValue(null);
+    this.form.get("requisicao.funcionarioId")?.setValue(this.funcionarioLogadoId);
   }
-
 
 }
