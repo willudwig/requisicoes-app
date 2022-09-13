@@ -65,16 +65,16 @@ export class RequisicaoService {
       )
   }
 
-  public selecionarRequisicoesParaMeuDepartamento(departamento: Departamento) {
-    return this.selecionarTodos()
-      .pipe(
-        map(
-          requisicoes => {
-            return requisicoes.filter(req => req.departamento === departamento);
-          }
-        )
-      )
-  }
+  // public selecionarRequisicoesParaMeuDepartamento(departamento: Departamento) {
+  //   return this.selecionarTodos()
+  //     .pipe(
+  //       map(
+  //         requisicoes => {
+  //           return requisicoes.filter(req => req.departamento === departamento);
+  //         }
+  //       )
+  //     )
+  // }
 
   public async inserir(registro: Requisicao): Promise<any> {
     if(!registro) {
@@ -110,6 +110,16 @@ export class RequisicaoService {
     catch (error) {
       this.notificacaoToastr.exibirErro(error);
     }
+  }
+
+  public selecionarPorId(id: string): Observable<Requisicao> {
+    return this.selecionarTodos()
+      .pipe(
+        take(1),
+        map(requisicoes => {
+          return requisicoes.filter(req => req.id === id)[0];
+        })
+      );
   }
 
 }

@@ -91,7 +91,6 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
   }
 
   public async gravar(modal: TemplateRef<any>, requisicao: Requisicao) {
-
     this.requisicaoSelecionada = requisicao;
     this.requisicaoSelecionada.movimentacoes = requisicao.movimentacoes ? requisicao.movimentacoes : [];
     this.form.reset();
@@ -125,8 +124,8 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
     this.requisicaoSelecionada.status = this.status?.value;
     this.requisicaoSelecionada.ultimaAtualizacao = new Date();
   }
-  private configurarValoresPadrao() {
 
+  private configurarValoresPadrao() {
     this.form.patchValue({
       funcionario: this.funcionarioLogado,
       status: this.requisicaoSelecionada?.status,
