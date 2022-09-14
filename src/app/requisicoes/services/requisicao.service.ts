@@ -54,28 +54,6 @@ export class RequisicaoService {
     );
   }
 
-  public selecionarRequisicoesFuncionarioAtual(id: string): Observable<Requisicao[]> {
-    return this.selecionarTodos()
-      .pipe(
-        map(
-          requisicoes => {
-            return requisicoes.filter(req => req.funcionarioId === id);
-          }
-        )
-      )
-  }
-
-  // public selecionarRequisicoesParaMeuDepartamento(departamento: Departamento) {
-  //   return this.selecionarTodos()
-  //     .pipe(
-  //       map(
-  //         requisicoes => {
-  //           return requisicoes.filter(req => req.departamento === departamento);
-  //         }
-  //       )
-  //     )
-  // }
-
   public async inserir(registro: Requisicao): Promise<any> {
     if(!registro) {
       return Promise.reject("Item inválido");

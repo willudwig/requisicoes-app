@@ -5,7 +5,9 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable, Subscription } from 'rxjs';
 import { AuthenticationService } from 'src/app/auth/services/authentication.service';
 import { Departamento } from 'src/app/departamentos/models/departamento.model';
+import { DepartamentoService } from 'src/app/departamentos/services/departamento.service';
 import { Equipamento } from 'src/app/equipamentos/models/equipamento.model';
+import { EquipamentoService } from 'src/app/equipamentos/services/equipamento.service';
 import { Funcionario } from 'src/app/funcionarios/models/funcionario.model';
 import { FuncionarioService } from 'src/app/funcionarios/services/funcionario.service';
 import { Movimentacao } from '../models/movimentacao.model';
@@ -32,6 +34,8 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private requisicaoService: RequisicaoService,
     private funcionarioService: FuncionarioService,
+    private departamentoService: DepartamentoService,
+    private equipamentoService: EquipamentoService,
     private toastr: ToastrService,
     private modalServie: NgbModal,
     private authService: AuthenticationService,
@@ -45,7 +49,6 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
             .subscribe( funcionario =>
               {
                 this.funcionarioLogado = funcionario;
-                this.requisicoes$ = this.requisicaoService.selecionarRequisicoesFuncionarioAtual(funcionario.id!);
               })
       } );
 
@@ -56,6 +59,9 @@ export class RequisicoesDepartamentoComponent implements OnInit, OnDestroy {
           data: new FormControl(""),
       });
 
+      this.departamentos$ = this.departamentoService.selecionarTodos();
+      this.equipamentos$ = this.equipamentoService.selecionarTodos();
+      this.requisicoes$ = this.requisicaoService.selecionarTodos();
     }
 
   ngOnDestroy(): void {
