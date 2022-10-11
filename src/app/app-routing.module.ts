@@ -11,20 +11,28 @@ const routes: Routes = [
   {path:"painel", component: PainelComponent, canActivate: [AuthGuard]},
 
   {
-    path:"departamentos", loadChildren: () => import("./departamentos/departamento.module")
-            .then(m => m.DepartamentoModule), canActivate: [AuthGuard]
+    path:"departamentos",
+    loadChildren: () => import("./departamentos/departamento.module")
+            .then(m => m.DepartamentoModule),
+            canActivate: [AuthGuard]
   },
   {
-    path:"equipamentos", loadChildren: () => import("./equipamentos/equipamento.module")
-          .then(m => m.EquipamentoModule), canActivate: [AuthGuard]
+    path:"equipamentos",
+    loadChildren: () => import("./equipamentos/equipamento.module")
+          .then(m => m.EquipamentoModule),
+          canActivate: [AuthGuard]
   },
   {
-    path:"funcionarios", loadChildren: () => import("./funcionarios/funcionario.module")
-          .then(m => m.FuncionarioModule), canActivate: [AuthGuard]
+    path:"funcionarios",
+    loadChildren: () => import("./funcionarios/funcionario.module")
+          .then(m => m.FuncionarioModule),
+          canActivate: [AuthGuard]
   },
   {
-    path:"requisicoes", loadChildren: () => import("./requisicoes/requisicao.module")
-          .then(m => m.RequisicaoModule), canActivate: [AuthGuard]
+    path:"requisicoes",
+    loadChildren: () => import("./requisicoes/requisicao.module")
+          .then(m => m.RequisicaoModule),
+          canActivate: [AuthGuard]
   },
 
 ];
